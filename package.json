@@ -1,0 +1,32 @@
+{
+  "name": "83350_bprjwede_cd_lj2p3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "sass": "sass --watch public/styles/scss:public/styles/css",
+    "scss": "sass --watch public/styles/scss:public/styles/css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mexury/83350_BprjWEDE_CD_lj2p3.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "mysql": "^2.18.1"
+  },
+  "bugs": {
+    "url": "https://github.com/Mexury/83350_BprjWEDE_CD_lj2p3/issues"
+  },
+  "homepage": "https://github.com/Mexury/83350_BprjWEDE_CD_lj2p3#readme"
+}

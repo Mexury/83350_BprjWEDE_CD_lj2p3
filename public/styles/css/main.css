@@ -1,0 +1,309 @@
+@font-face {
+  font-family: RockinRecord;
+  src: url("/content/fonts/gomarice_rockin_record.ttf");
+}
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-family: RockinRecord, sans-serif;
+}
+
+html, body {
+  height: 100vh;
+  width: 100%;
+}
+
+body {
+  background-color: #FF9900;
+}
+
+.container {
+  width: calc(100% - 4.8rem);
+  margin: 0 auto;
+}
+@media (min-width: 480px) {
+  .container {
+    width: calc(100% - 7.2rem);
+  }
+}
+@media (min-width: 768px) {
+  .container {
+    max-width: 90%;
+    width: calc(100% - 9.6rem);
+  }
+}
+@media (min-width: 1024px) {
+  .container {
+    max-width: 80%;
+    padding-left: 2.4rem;
+    padding-right: 2.4rem;
+  }
+}
+@media (min-width: 1600px) {
+  .container {
+    max-width: 122rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+}
+
+.content-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+.content-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -5;
+  height: 1282px;
+  width: 1282px;
+  border-radius: 100%;
+  background-color: #FF8A00;
+}
+.content-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -4;
+  height: 560px;
+  width: 560px;
+  border-radius: 100%;
+  background-color: #FF6B00;
+}
+
+.game-wrapper {
+  z-index: 10;
+  isolation: isolate;
+}
+
+#background-star {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  rotate: 0deg;
+  transform-origin: center;
+  z-index: -3;
+  width: 250vw;
+  animation: rotate 60s linear infinite;
+}
+@media (min-width: 768px) {
+  #background-star {
+    width: 120vw;
+  }
+}
+@keyframes rotate {
+  from {
+    rotate: 0deg;
+  }
+  to {
+    rotate: 360deg;
+  }
+}
+
+.point {
+  border-radius: 100px;
+  height: 20px;
+  width: 20px;
+  background-color: magenta;
+  position: absolute;
+}
+
+#point-one {
+  --angle: 25deg;
+  --distance: 100px;
+  top: 0px;
+  left: 0px;
+}
+#point-one::before {
+  position: absolute;
+  content: "";
+  height: 50px;
+  width: var(--distance);
+  background-image: url("../../content/scissors.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: auto 100%;
+  top: 0px;
+  left: 14px;
+  transform-origin: center left;
+  transform: translate(0, -50%) rotate(var(--angle));
+  z-index: -8;
+}
+#point-one::after {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: var(--distance);
+  background-image: url("../../content/string.svg");
+  /* background-repeat: no-repeat; */
+  background-position: 0 0;
+  background-size: auto 100%;
+  top: 10px;
+  left: 10px;
+  transform-origin: center left;
+  transform: translate(0, -50%) rotate(var(--angle));
+  z-index: -10;
+}
+
+#point-two {
+  top: 100px;
+  left: 300px;
+}
+
+.pair-wrapper {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  position: relative;
+}
+@media (min-width: 1024px) {
+  .pair-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 240px;
+  }
+}
+
+.pair-mobile-arrow {
+  height: 40px;
+  width: 40px;
+  background-color: white;
+  border: 5px solid black;
+  border-radius: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  cursor: pointer;
+  --translate-x: -50%;
+}
+.pair-mobile-arrow[disabled], .pair-mobile-arrow[disabled=true] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.pair-mobile-arrow::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(var(--translate-x), -50%);
+  content: "";
+  background-image: url("../../content/arrow.svg");
+  height: 18px;
+  width: 18px;
+  background-size: 100% 100%;
+}
+.pair-mobile-arrow-left {
+  left: -48px;
+}
+.pair-mobile-arrow-left:hover {
+  --translate-x: calc(-50% - 3px);
+}
+.pair-mobile-arrow-right {
+  right: -48px;
+}
+.pair-mobile-arrow-right::before {
+  transform: translate(var(--translate-x), -50%) rotate(180deg);
+}
+.pair-mobile-arrow-right:hover {
+  --translate-x: calc(-50% + 3px);
+}
+@media (min-width: 1024px) {
+  .pair-mobile-arrow {
+    display: none;
+  }
+}
+
+.pair-key-wrapper, .pair-value-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  max-width: 100%;
+  margin: 0 24px;
+  gap: 12px;
+  position: relative;
+}
+.pair-key-wrapper .pair-block:not([selected=true]), .pair-value-wrapper .pair-block:not([selected=true]) {
+  display: none;
+}
+@media (min-width: 1024px) {
+  .pair-key-wrapper .pair-block:not([selected=true]), .pair-value-wrapper .pair-block:not([selected=true]) {
+    display: flex;
+  }
+}
+
+.pair-block {
+  pointer-events: none;
+  border: 5px solid black;
+  background-color: white;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -ms-touch-select: none;
+  font-size: 15px;
+  width: 100%;
+  --angle: 0deg;
+  --distance: 100px;
+}
+.pair-block p {
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+}
+.pair-block img {
+  height: 100%;
+}
+.pair-block .anchor-point {
+  display: none;
+}
+.pair-block::after {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: var(--distance);
+  background-image: url("../../content/string.svg");
+  /* background-repeat: no-repeat; */
+  background-position: 0 0;
+  background-size: auto 100%;
+  top: 50%;
+  right: 0;
+  transform-origin: center left;
+  transform: translate(100%, -50%) rotate(var(--angle));
+  border-radius: 4px;
+  z-index: -1;
+}
+@media (min-width: 1024px) {
+  .pair-block {
+    pointer-events: visible;
+    padding-right: 35px;
+  }
+  .pair-block p {
+    z-index: 1;
+  }
+  .pair-block .anchor-point {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 0%;
+    transform: translate(18px, -50%);
+    z-index: 0;
+  }
+  .pair-block .anchor-point-left {
+    right: unset;
+    left: 0%;
+    transform: translate(-18px, -50%) rotate(180deg);
+  }
+}
+
+/*# sourceMappingURL=main.css.map */

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles/css/main.css">
+        <title>Document</title>
+    </head>
+    <body>
+        <div class="content-wrapper">
+            <img src="content/background-star.svg" id="background-star">
+        </div>
+        <div class="container">
+            <div class="pair-wrapper">
+                <div class="pair-key-wrapper">
+                    <div class="pair-mobile-arrow pair-mobile-arrow-left" id="prev-key-pair"></div>
+                    <% pairs.keys.forEach((key, index) => { %>
+                        <div class="pair-block" data-target="<%= key.target %>" data-connection="none" data-id="<%= index %>" <%= index == 0 ? 'selected=true' : "" %>>
+                            <p><%= key.value %></p>
+                            
+                            <svg width="50" height="32" viewBox="0 0 50 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                class="anchor-point anchor-point-right">
+                                <rect x="20.5" y="2.5" width="27" height="27" rx="13.5" fill="white" stroke="black" stroke-width="5"/>
+                                <rect width="32" height="32" fill="white"/>
+                                <rect x="27" y="9" width="14" height="14" rx="7" fill="currentColor"/>
+                            </svg>
+                        </div>
+                    <% }) %>
+                    <div class="pair-mobile-arrow pair-mobile-arrow-right"id="next-key-pair"></div>
+                </div>
+                <div class="pair-value-wrapper">
+                    <div class="pair-mobile-arrow pair-mobile-arrow-left" id="prev-value-pair"></div>
+                    <% pairs.values.forEach((value, index) => { %>
+                        <div class="pair-block" data-slug="<%= value.slug %>" data-connection="none" data-id="<%= index %>" <%= index == 0 ? 'selected=true' : "" %>>
+                            <!-- <img src="content/<%= value.slug %>.svg" /> -->
+                            <p><%= value.name %></p>
+
+                            <svg width="50" height="32" viewBox="0 0 50 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                class="anchor-point anchor-point-left">
+                                <rect x="20.5" y="2.5" width="27" height="27" rx="13.5" fill="white" stroke="black" stroke-width="5"/>
+                                <rect width="32" height="32" fill="white"/>
+                                <rect x="27" y="9" width="14" height="14" rx="7" fill="currentColor"/>
+                            </svg>
+                        </div>
+                    <% }) %>
+                    <div class="pair-mobile-arrow pair-mobile-arrow-right"id="next-value-pair"></div>
+                </div>
+            </div>
+
+            <div class="game-wrapper">
+                <div class="point" id="point-one"></div>
+                <div class="point" id="point-two"></div>
+            </div>
+        </div>
+    </body>
+</html>
+
+<script defer>
+let pointOne = document.querySelector("#point-one")
+let pointTwo = document.querySelector("#point-two")
+
+const vector1 = { x: pointOne.getBoundingClientRect().left, y: pointOne.getBoundingClientRect().top }
+const vector2 = { x: pointTwo.getBoundingClientRect().left, y: pointTwo.getBoundingClientRect().top }
+
+let distance = Math.sqrt(Math.pow(vector2.x - vector1.x, 2) + Math.pow(vector2.y - vector1.y, 2))
+
+let angleRadians = Math.atan2(vector2.y - vector1.y, vector2.x - vector1.x)
+let angleDegrees = angleRadians * (180 / Math.PI)
+
+pointOne.style.setProperty('--distance', `${distance}px`);
+pointOne.style.setProperty('--angle', `${angleDegrees}deg`)
+
+const prevKeyPairArrow = document.querySelector("#prev-key-pair")
+const nextKeyPairArrow = document.querySelector("#next-key-pair")
+
+const prevValuePairArrow = document.querySelector("#prev-value-pair")
+const nextValuePairArrow = document.querySelector("#next-value-pair")
+
+const checkPrevious = (elem) => elem.previousElementSibling && elem.previousElementSibling.className == "pair-block"
+const checkNext = (elem) => elem.nextElementSibling && elem.nextElementSibling.className == "pair-block"
+
+let selectedKeyBlock = document.querySelector(".pair-key-wrapper .pair-block[selected=true]")
+let selectedValueBlock = document.querySelector(".pair-value-wrapper .pair-block[selected=true]")
+
+prevKeyPairArrow.toggleAttribute("disabled", !checkPrevious(selectedKeyBlock))
+nextKeyPairArrow.toggleAttribute("disabled", !checkNext(selectedKeyBlock))
+
+prevValuePairArrow.toggleAttribute("disabled", !checkPrevious(selectedKeyBlock))
+nextValuePairArrow.toggleAttribute("disabled", !checkNext(selectedKeyBlock))
+
+prevKeyPairArrow.onpointerdown = e => {
+    selectedKeyBlock = document.querySelector(".pair-key-wrapper .pair-block[selected=true]")
+
+    if (checkPrevious(selectedKeyBlock)) {
+        selectedKeyBlock.removeAttribute("selected")
+        selectedKeyBlock.previousElementSibling.setAttribute("selected", true)
+        selectedKeyBlock = document.querySelector(".pair-key-wrapper .pair-block[selected=true]")
+    }
+
+    prevKeyPairArrow.toggleAttribute("disabled", !checkPrevious(selectedKeyBlock))
+    nextKeyPairArrow.toggleAttribute("disabled", !checkNext(selectedKeyBlock))
+}
+nextKeyPairArrow.onpointerdown = e => {
+    selectedKeyBlock = document.querySelector(".pair-key-wrapper .pair-block[selected=true]")
+
+    if (checkNext(selectedKeyBlock)) {
+        selectedKeyBlock.removeAttribute("selected")
+        selectedKeyBlock.nextElementSibling.setAttribute("selected", true)
+        selectedKeyBlock = document.querySelector(".pair-key-wrapper .pair-block[selected=true]")
+    }
+
+    prevKeyPairArrow.toggleAttribute("disabled", !checkPrevious(selectedKeyBlock))
+    nextKeyPairArrow.toggleAttribute("disabled", !checkNext(selectedKeyBlock))
+}
+
+prevValuePairArrow.onpointerdown = e => {
+    selectedValueBlock = document.querySelector(".pair-value-wrapper .pair-block[selected=true]")
+
+    if (checkPrevious(selectedValueBlock)) {
+        selectedValueBlock.removeAttribute("selected")
+        selectedValueBlock.previousElementSibling.setAttribute("selected", true)
+        selectedValueBlock = document.querySelector(".pair-value-wrapper .pair-block[selected=true]")
+    }
+
+    prevValuePairArrow.toggleAttribute("disabled", !checkPrevious(selectedValueBlock))
+    nextValuePairArrow.toggleAttribute("disabled", !checkNext(selectedValueBlock))
+}
+nextValuePairArrow.onpointerdown = e => {
+    selectedValueBlock = document.querySelector(".pair-value-wrapper .pair-block[selected=true]")
+
+    if (checkNext(selectedValueBlock)) {
+        selectedValueBlock.removeAttribute("selected")
+        selectedValueBlock.nextElementSibling.setAttribute("selected", true)
+        selectedValueBlock = document.querySelector(".pair-value-wrapper .pair-block[selected=true]")
+    }
+
+    prevValuePairArrow.toggleAttribute("disabled", !checkPrevious(selectedValueBlock))
+    nextValuePairArrow.toggleAttribute("disabled", !checkNext(selectedValueBlock))
+}
+
+let keyPairBlocks = document.querySelectorAll(".pair-key-wrapper .pair-block")
+let valuePairBlocks = document.querySelectorAll(".pair-value-wrapper .pair-block")
+
+let selecting = null;
+
+keyPairBlocks.forEach(block => {
+    block.onpointerdown = e => {
+        if (!selecting && block.getAttribute("data-connection") == "none") {
+            selecting = block
+        } else {
+            if (selecting)
+            switch(selecting.parentElement.className) {
+                case "pair-key-wrapper":
+                    // NO LINK
+                    break;
+                case "pair-value-wrapper":
+                    // LINK
+                    if (block.getAttribute("data-connection") == "none") {
+                        block.setAttribute("data-connection", selecting.getAttribute("data-id"))
+                        selecting.setAttribute("data-connection", block.getAttribute("data-id"))
+                        selecting = null
+                    }
+                    break;
+            }
+        }
+    }
+})
+
+valuePairBlocks.forEach(block => {
+    block.onpointerdown = e => {
+        if (!selecting && block.getAttribute("data-connection") == "none") {
+            selecting = block
+            console.log(selecting);
+        } else {
+            if (selecting)
+            switch(selecting.parentElement.className) {
+                case "pair-key-wrapper":
+                    // LINK
+                    if (block.getAttribute("data-connection") == "none") {
+                        block.setAttribute("data-connection", selecting.getAttribute("data-id"))
+                        selecting.setAttribute("data-connection", block.getAttribute("data-id"))
+                        selecting = null
+                    }
+                    break;
+                case "pair-value-wrapper":
+                    // NO LINK
+                    break;
+            }
+        }
+    }
+})
+
+
+window.onmousemove = e => {
+    // vector2.x = event.clientX - element.offsetLeft
+    // vector2.y = event.clientY - element.offsetTop
+    if (selecting) {
+        vector1.x = selecting.getBoundingClientRect().left + selecting.getBoundingClientRect().width
+        vector1.y = selecting.getBoundingClientRect().top
+
+        vector2.x = event.clientX
+        vector2.y = event.clientY
+
+        distance = Math.sqrt(Math.pow(vector2.x - vector1.x, 2) + Math.pow(vector2.y - vector1.y, 2))
+        angleRadians = Math.atan2(vector2.y - vector1.y, vector2.x - vector1.x);
+        angleDegrees = angleRadians * (180 / Math.PI)
+        // console.log(`Distance: ${distance}`);
+        // console.log(`Angle (in degrees): ${angleDegrees}`)
+
+        selecting.style.setProperty('--distance', `${distance}px`);
+        selecting.style.setProperty('--angle', `${angleDegrees}deg`);
+    }
+}
+
+</script>
