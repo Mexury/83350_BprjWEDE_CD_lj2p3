@@ -29,10 +29,78 @@ html, body {
 }
 
 body {
-    // position: relative;
+    position: relative;
     background-color: #FF9900;
     // height: 100vh;
     // overflow: hidden;
+
+    &.is-home {
+
+        &> .container {
+            // overflow: hidden;
+            position: relative;
+        }
+
+        #logo {
+            width: 100%;
+            height: auto;
+            margin: auto;
+            scale: 0;
+            animation: logo-bounce-in 600ms forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation-delay: 800ms;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            translate: -50% -50%;
+
+            @keyframes logo-bounce-in {
+                from {
+                    scale: 0;
+                }
+                to {
+                    scale: 1;
+                }
+            }
+        }
+
+        #steve-harvey {
+            display: none;
+        }
+
+        @media (min-width: media(laptop)) {
+            &> .container {
+                overflow: hidden;
+            }
+            #logo {
+                width: 724px;
+                height: 389px;
+            }
+            #steve-harvey {
+                display: block;
+                // position: absolute;
+                z-index: 10;
+                width: 477px;
+                height: 545px;
+                margin-top: auto;
+                margin-left: auto;
+                margin-right: auto;
+                transform: translate(82%, 100%) scale(0);
+
+                animation: steve-bounce-in 300ms forwards cubic-bezier(0.175, 0.885, 0.32, 1);
+                animation-delay: 1100ms;
+                transform-origin: center;
+            }
+
+            @keyframes steve-bounce-in {
+                from {
+                    transform: translate(82%, 100%) scale(0);
+                }
+                to {
+                    transform: translate(82%, 0) scale(1);
+                }
+            }
+        }
+    }
 }
 
 .container {
@@ -69,12 +137,35 @@ body {
     width: 100%;
     overflow: hidden;
     pointer-events: none;
+
+    @keyframes bounce-in {
+        from {
+            transform: translate(-50%, -50%) scale(0);
+        }
+        to {
+            transform: translate(-50%, -50%) scale(1);
+        }
+    }
+
+    body.is-home & {
+        &::before {
+            transform: translate(-50%, -50%) scale(0);
+            animation: bounce-in 600ms forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        &::after {
+            transform: translate(-50%, -50%) scale(0);
+            animation: bounce-in 600ms forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation-delay: 300ms;
+        }
+    }
+
     &::before {
         content: "";
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        transform-origin: center;
         z-index: -5;
         height: 1282px;
         width: 1282px;
@@ -114,6 +205,12 @@ body {
         width: 120vw;
     }
 
+    body.is-home & {
+        scale: 0;
+        animation: star-bounce-in 1500ms forwards cubic-bezier(0.075, 0.82, 0.165, 1), rotate 60s linear infinite;
+        animation-delay: 630ms;
+    }
+
     animation: rotate 60s linear infinite;
     @keyframes rotate {
         from {
@@ -123,62 +220,72 @@ body {
             rotate: 360deg;
         }
     }
-}
-
-.point {
-    border-radius: 100px;
-    height: 20px;
-    width: 20px;
-    background-color: magenta;
-    position: absolute;
-}
-
-#point-one {
-    --angle: 25deg;
-    --distance: 100px;
-    top: 0px;
-    left: 0px;
-
-    &::before {
-        position: absolute;
-        content: "";
-        height: 50px;
-        width: var(--distance);
-        background-image: url('../../content/scissors.svg');
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: auto 100%;
-        top: 0px;
-        left: 14px;
-        transform-origin: center left;
-        transform: translate(0, -50%) rotate(var(--angle));
-        z-index: -8;
-    }
-    &::after {
-        position: absolute;
-        content: "";
-        height: 22px;
-        width: var(--distance);
-        background-image: url('../../content/string.svg');
-        /* background-repeat: no-repeat; */
-        background-position: 0 0;
-        background-size: auto 100%;
-        top: 10px;
-        left: 10px;
-        transform-origin: center left;
-        transform: translate(0, -50%) rotate(var(--angle));
-        z-index: -10;
+    @keyframes star-bounce-in {
+        from {
+            scale: 0;
+        }
+        to {
+            scale: 1;
+        }
     }
 }
-#point-two {
-    top: 100px;
-    left: 300px;
-}
+
+// .point {
+//     border-radius: 100px;
+//     height: 20px;
+//     width: 20px;
+//     background-color: magenta;
+//     position: absolute;
+// }
+
+// #point-one {
+//     --angle: 25deg;
+//     --distance: 100px;
+//     top: 0px;
+//     left: 0px;
+
+//     &::before {
+//         position: absolute;
+//         content: "";
+//         height: 50px;
+//         width: var(--distance);
+//         background-image: url('../../content/scissors.svg');
+//         background-repeat: no-repeat;
+//         background-position: center;
+//         background-size: auto 100%;
+//         top: 0px;
+//         left: 14px;
+//         transform-origin: center left;
+//         transform: translate(0, -50%) rotate(var(--angle));
+//         z-index: -8;
+//     }
+//     &::after {
+//         position: absolute;
+//         content: "";
+//         height: 22px;
+//         width: var(--distance);
+//         background-image: url('../../content/string.svg');
+//         /* background-repeat: no-repeat; */
+//         background-position: 0 0;
+//         background-size: auto 100%;
+//         top: 10px;
+//         left: 10px;
+//         transform-origin: center left;
+//         transform: translate(0, -50%) rotate(var(--angle));
+//         z-index: -10;
+//     }
+// }
+// #point-two {
+//     top: 100px;
+//     left: 300px;
+// }
 
 .pair-wrapper {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     position: relative;
+    gap: 12px;
+    margin: auto;
     
     @media (min-width: media(laptop)) {
         grid-template-columns: repeat(2, 1fr);
@@ -247,14 +354,75 @@ body {
     margin: 0 24px;
     gap: 12px;
     position: relative;
+    min-height: 146px;
 
     .pair-block:not([selected=true]) {
         display: none;
     }
+    .pair-key-block {
+        padding-bottom: 50px;
+    }
+    .pair-value-block {
+        justify-content: center;
+        p {
+            font-size: 20px;
+            font-weight: normal;
+            font-family: RockinRecord;
+        }
+    }
 
     @media (min-width: media(laptop)) {
+        min-height: unset;
+
+        .pair-block {
+            overflow: initial;
+            padding-bottom: 20px;
+            &::after {
+                all: unset;
+            }
+        }
+
+        .pair-value-block {
+            justify-content: flex-start;
+            padding-left: 32px;
+        }
+
         .pair-block:not([selected=true]) {
             display: flex;
+        }
+    }
+}
+
+button {
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: normal;
+
+    border: 5px solid black;
+
+    &.mobile-connect-button,
+    &.mobile-disconnect-button {
+        margin: 0 24px;
+
+        &:hover {
+            filter: contrast(1.15) brightness(.9);
+        }
+    }
+
+    &.mobile-connect-button {
+        background-color: #00FF47;
+        color: #01963c;
+    }
+    &.mobile-disconnect-button {
+        background-color: #ff004c;
+        color: #970732;
+    }
+
+    @media (min-width: media(laptop)) {
+        &.mobile-connect-button,
+        &.mobile-disconnect-button {
+            display: none;
         }
     }
 }
@@ -291,6 +459,7 @@ body {
 
     p {
         // width: 558px;
+        color: black;
     }
 
     .anchor-point {
@@ -299,29 +468,282 @@ body {
 
     --angle: 0deg;
     --distance: 100px;
+
+    overflow: hidden;
+
     &::after {
         position: absolute;
         content: "";
         height: 22px;
-        width: var(--distance);
-        background-image: url('../../content/string.svg');
-        /* background-repeat: no-repeat; */
+        width: 100%;
+        background-color: black;
+        background-image: url("../../content/string.svg");
+        // background-repeat: repeat-x;
         background-position: 0 0;
-        background-size: auto 100%;
-        top: 50%;
-        right: 0;
-        transform-origin: center left;
-        transform: translate(100%, -50%) rotate(var(--angle));
+        // background-size: 100% 100%;
+        bottom: -5px;
+        left: 0;
+        // transform-origin: center left;
+        // transform: translate(0%, -50%) rotate(var(--angle));
         border-radius: 4px;
-        z-index: -1;
-        // z-index: 10;
+        z-index: 1;
+        box-shadow: 5px 0px 0px 0px black, -5px 0px 0px 0px black;
+    }
+
+    &.pair-key-block[data-selecting="none"]:not([data-connection="none"]) {
+        &[data-id="0"]::after {
+            background-image: url('../../content/string_red.svg');
+        }
+        &[data-id="1"]::after {
+            background-image: url('../../content/string_blue.svg');
+        }
+        &[data-id="2"]::after {
+            background-image: url('../../content/string_green.svg');
+        }
+        &[data-id="3"]::after {
+            background-image: url('../../content/string_orange.svg');
+        }
+        &[data-id="4"]::after {
+            background-image: url('../../content/string_pink.svg');
+        }
+        &[data-id="5"]::after {
+            background-image: url('../../content/string_yellow.svg');
+        }
+    }
+    &.pair-value-block[data-selecting="none"]:not([data-connection="none"]) {
+        &[data-connection="0"]::after {
+            background-image: url('../../content/string_red.svg');
+        }
+        &[data-connection="1"]::after {
+            background-image: url('../../content/string_blue.svg');
+        }
+        &[data-connection="2"]::after {
+            background-image: url('../../content/string_green.svg');
+        }
+        &[data-connection="3"]::after {
+            background-image: url('../../content/string_orange.svg');
+        }
+        &[data-connection="4"]::after {
+            background-image: url('../../content/string_pink.svg');
+        }
+        &[data-connection="5"]::after {
+            background-image: url('../../content/string_yellow.svg');
+        }
     }
 
     @media (min-width: media(laptop)) {
         pointer-events: visible;
         padding-right: 35px;
+        overflow: initial;
+
+        &::after {
+            bottom: unset;
+        }
+
+        &.pair-key-block[data-selecting="none"]:not([data-connection="none"]) {
+            &[data-id="0"] {
+                color: #FF0000;
+                &::after {
+                    background-image: url('../../content/string_red.svg');
+                }
+            }
+            &[data-id="1"] {
+                color: #1A5AFF;
+                &::after {
+                    background-image: url('../../content/string_blue.svg');
+                }
+            }
+            &[data-id="2"] {
+                color: #229342;
+                &::after {
+                    background-image: url('../../content/string_green.svg');
+                }
+            }
+            &[data-id="3"] {
+                color: #FF6B00;
+                &::after {
+                    background-image: url('../../content/string_orange.svg');
+                }
+            }
+            &[data-id="4"] {
+                color: #FF00D6;
+                &::after {
+                    background-image: url('../../content/string_pink.svg');
+                }
+            }
+            &[data-id="5"] {
+                color: #F7DF1E;
+                &::after {
+                    background-image: url('../../content/string_yellow.svg');
+                }
+            }
+        }
+    
+        // pair-key-block which is connected
+        &.pair-key-block[data-selecting="none"]:not([data-connection="none"]) {
+            &[data-id="0"] {
+                color: #FF0000;
+                &::after {
+                    background-image: url('../../content/string_red.svg');
+                }
+            }
+            &[data-id="1"] {
+                color: #1A5AFF;
+                &::after {
+                    background-image: url('../../content/string_blue.svg');
+                }
+            }
+            &[data-id="2"] {
+                color: #229342;
+                &::after {
+                    background-image: url('../../content/string_green.svg');
+                }
+            }
+            &[data-id="3"] {
+                color: #FF6B00;
+                &::after {
+                    background-image: url('../../content/string_orange.svg');
+                }
+            }
+            &[data-id="4"] {
+                color: #FF00D6;
+                &::after {
+                    background-image: url('../../content/string_pink.svg');
+                }
+            }
+            &[data-id="5"] {
+                color: #F7DF1E;
+                &::after {
+                    background-image: url('../../content/string_yellow.svg');
+                }
+            }
+    
+            &:hover {
+                &::after {
+                    animation-play-state: running;
+                    box-shadow:
+                        5px 0px 0px 0px black,
+                        -5px 0px 0px 0px black,
+                        5px 0px 0px 5px white,
+                        -5px 0px 0px 5px white;
+                    z-index: 4;
+                }
+            }
+    
+            @keyframes selected {
+                from {
+                    background-position: 0 0;
+                }
+                to {
+                    background-position: 770px 0;
+                }
+            }
+    
+            &:hover {
+                &::before {
+                    position: absolute;
+                    content: "";
+                    height: 50px;
+                    width: var(--distance);
+                    background-image: url("../../content/scissors.svg");
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: auto 100%;
+                    top: 0;
+                    left: 100%;
+                    transform-origin: center left;
+                    transform: translate(0%, calc(-50% + 28px)) rotate(var(--angle));
+                    border-radius: 4px;
+                    z-index: 10;
+                }
+            }
+            &::after {
+                animation: selected 20s infinite linear;
+                animation-play-state: paused;
+                position: absolute;
+                content: "";
+                height: 22px;
+                width: var(--distance);
+                background-color: black;
+                background-image: url("../../content/string.svg");
+                background-position: 0 0;
+                background-size: auto 100%;
+                top: 50%;
+                left: 100%;
+                transform-origin: center left;
+                transform: translate(0%, -50%) rotate(var(--angle));
+                border-radius: 4px;
+                z-index: -1;
+                box-shadow: 5px 0px 0px 0px black, -5px 0px 0px 0px black;
+            }
+        }
+        // pair-value-block which is connected
+        &.pair-value-block[data-selecting="none"]:not([data-connection="none"]) {
+            &::after {
+                all: unset;
+            }
+            &[data-connection="0"] {
+                color: #FF0000;
+            }
+            &[data-connection="1"] {
+                color: #1A5AFF;
+            }
+            &[data-connection="2"] {
+                color: #229342;
+            }
+            &[data-connection="3"] {
+                color: #FF6B00;
+            }
+            &[data-connection="4"] {
+                color: #FF00D6;
+            }
+            &[data-connection="5"] {
+                color: #F7DF1E;
+            }
+        }
+    
+        &[data-selecting="key"], &:not([data-connection="none"]) {
+            &::after {
+                position: absolute;
+                content: "";
+                height: 22px;
+                width: var(--distance);
+                background-color: black;
+                background-image: url('../../content/string.svg');
+                background-position: 0 0;
+                background-size: auto 100%;
+                top: 50%;
+                right: 0;
+                transform-origin: center left;
+                transform: translate(100%, -50%) rotate(var(--angle));
+                border-radius: 4px;
+                z-index: -1;
+                box-shadow: 5px 0px 0px 0px black, -5px 0px 0px 0px black;
+            }
+        }
+    
+        &[data-selecting="value"], &:not([data-connection="none"]) {
+            &::after {
+                position: absolute;
+                content: "";
+                height: 22px;
+                width: var(--distance);
+                background-color: black;
+                background-image: url('../../content/string.svg');
+                background-position: 0 0;
+                background-size: auto 100%;
+                top: 50%;
+                left: 0;
+                transform-origin: center right;
+                transform: translate(-100%, -50%) rotate(var(--angle));
+                border-radius: 4px;
+                z-index: -1;
+                box-shadow: 5px 0px 0px 0px black, -5px 0px 0px 0px black;
+            }
+        }
+
         p {
-            z-index: 1;
+            z-index: 10;
         }
         .anchor-point {
             display: block;
@@ -330,7 +752,7 @@ body {
             right: 0%;
             // color: red;
             transform: translate(18px, -50%);
-            z-index: 0;
+            z-index: 5;
 
             &-left {
                 right: unset;

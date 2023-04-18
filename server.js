@@ -189,20 +189,17 @@ const pairs = {
 }
 
 const shuffleArray = array => {
-    let rdata = array
 
-    for (let i = rdata.length - 1; i > 0; i--) {
+    for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        const temp = rdata[i];
-        rdata[i] = rdata[j];
-        rdata[j] = temp;
+        const temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
     }
-
-    return rdata
 }
 
 const getPairs = () => {
-    pairs.keys = shuffleArray(pairs.keys)
+    shuffleArray(pairs.keys)
 
     pairs.keys = pairs.keys.splice(0, 5)
     let tempValues = []
@@ -210,6 +207,7 @@ const getPairs = () => {
         let result = pairs.values.find(value => value.slug == key.target)
         if (result) tempValues.push(result)
     })
+    shuffleArray(tempValues)
 
     console.log(tempValues);
 
@@ -221,7 +219,12 @@ const getPairs = () => {
 
 app.get(["/"], async (req, res) => {
 
-    res.render("home", {
+    res.render("home")
+})
+
+app.get(["/game"], async (req, res) => {
+
+    res.render("game", {
         pairs: getPairs()
     })
 })

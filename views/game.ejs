@@ -7,13 +7,51 @@
         <link rel="stylesheet" href="styles/css/main.css">
         <title>Document</title>
     </head>
-    <body class="is-home">
+    <body>
         <div class="content-wrapper">
             <img src="content/background-star.svg" id="background-star">
         </div>
         <div class="container" style="display: flex; height: 100%;">
-            <img src="content/logo.png" alt="Name That Show!" id="logo">
-            <img src="content/steve-harvey.png" alt="Your host, Steve Harvey" id="steve-harvey">
+            <div class="pair-wrapper">
+                <div class="pair-key-wrapper">
+                    <div class="pair-mobile-arrow pair-mobile-arrow-left" id="prev-key-pair"></div>
+                    <% pairs.keys.forEach((key, index) => { %>
+                        <div class="pair-block pair-key-block" tabindex="<%= index+1 %>" data-target="<%= key.target %>" data-connection="none" data-id="<%= index %>" <%= index == 0 ? 'selected=true' : "" %>>
+                            <p><%= key.value %></p>
+
+                            <svg width="41" height="52" viewBox="0 0 41 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="anchor-point anchor-point-right">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M28 52V0H23V52H28Z" fill="black"/>
+                                <path d="M23 52V0H0V52H23Z" fill="white"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M25 10C24.3227 10 23.6552 10.0421 23 10.1238V41.8762C23.6552 41.9579 24.3227 42 25 42C33.8366 42 41 34.8366 41 26C41 17.1634 33.8366 10 25 10Z" fill="white"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M25 37C24.317 37 23.6486 36.9378 23 36.8186V41.8762C23.6552 41.9579 24.3227 42 25 42C33.8366 42 41 34.8366 41 26C41 17.1634 33.8366 10 25 10C24.3227 10 23.6552 10.0421 23 10.1238V15.1814C23.6486 15.0622 24.317 15 25 15C31.0751 15 36 19.9249 36 26C36 32.0751 31.0751 37 25 37Z" fill="black"/>
+                                <rect x="18" y="19" width="14" height="14" rx="7" fill="currentColor"/>
+                            </svg>
+                        </div>
+                    <% }) %>
+                    <div class="pair-mobile-arrow pair-mobile-arrow-right"id="next-key-pair"></div>
+                </div>
+                <div class="pair-value-wrapper">
+                    <div class="pair-mobile-arrow pair-mobile-arrow-left" id="prev-value-pair"></div>
+                    <% pairs.values.forEach((value, index) => { %>
+                        <div class="pair-block pair-value-block" tabindex="<%= index+6 %>" data-slug="<%= value.slug %>" data-connection="none" data-id="<%= index %>" <%= index == 0 ? 'selected=true' : "" %>>
+                            <!-- <img src="content/<%= value.slug %>.svg" /> -->
+                            <p><%= value.name %></p>
+
+                            <svg width="41" height="52" viewBox="0 0 41 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="anchor-point anchor-point-left">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M28 52V0H23V52H28Z" fill="black"/>
+                                <path d="M23 52V0H0V52H23Z" fill="white"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M25 10C24.3227 10 23.6552 10.0421 23 10.1238V41.8762C23.6552 41.9579 24.3227 42 25 42C33.8366 42 41 34.8366 41 26C41 17.1634 33.8366 10 25 10Z" fill="white"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M25 37C24.317 37 23.6486 36.9378 23 36.8186V41.8762C23.6552 41.9579 24.3227 42 25 42C33.8366 42 41 34.8366 41 26C41 17.1634 33.8366 10 25 10C24.3227 10 23.6552 10.0421 23 10.1238V15.1814C23.6486 15.0622 24.317 15 25 15C31.0751 15 36 19.9249 36 26C36 32.0751 31.0751 37 25 37Z" fill="black"/>
+                                <rect x="18" y="19" width="14" height="14" rx="7" fill="currentColor"/>
+                            </svg>
+                        </div>
+                    <% }) %>
+                    <div class="pair-mobile-arrow pair-mobile-arrow-right"id="next-value-pair"></div>
+                </div>
+
+                <button class="mobile-connect-button" tabindex="11">CONNECT!</button>
+                <button class="mobile-disconnect-button" tabindex="12">DISCONNECT!</button>
+            </div>
         </div>
     </body>
 </html>
