@@ -41,6 +41,42 @@ body {
             position: relative;
         }
 
+        &.is-loading {
+            #logo {
+                scale: 1;
+                animation: logo-bounce-out 600ms forwards ease-in-out;
+                animation-delay: 300ms;
+                @keyframes logo-bounce-out {
+                    from {
+                        scale: 1;
+                    }
+                    10% {
+                        scale: 1.275;
+                    }
+                    to {
+                        scale: 0;
+                    }
+                }
+            }
+            
+            @media (min-width: media(laptop)) {
+                #steve-harvey {
+                    transform: translate(82%, 0%) scale(1);
+                    animation: steve-bounce-out 300ms forwards ease-in-out;
+                    animation-delay: 0ms;
+                }
+    
+                @keyframes steve-bounce-out {
+                    from {
+                        transform: translate(82%, 0) scale(1);
+                    }
+                    to {
+                        transform: translate(82%, 100%) scale(0);
+                    }
+                }
+            }
+        }
+
         #logo {
             width: 100%;
             height: auto;
@@ -146,6 +182,14 @@ body {
             transform: translate(-50%, -50%) scale(1);
         }
     }
+    @keyframes bounce-out {
+        from {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        to {
+            transform: translate(-50%, -50%) scale(0);
+        }
+    }
 
     body.is-home & {
         &::before {
@@ -156,6 +200,19 @@ body {
             transform: translate(-50%, -50%) scale(0);
             animation: bounce-in 600ms forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
             animation-delay: 300ms;
+        }
+    }
+
+    body.is-home.is-loading & {
+        &::before {
+            transform: translate(-50%, -50%) scale(1);
+            animation: bounce-out 600ms forwards ease-in-out;
+            animation-delay: 1200ms;
+        }
+        &::after {
+            transform: translate(-50%, -50%) scale(1);
+            animation: bounce-out 600ms forwards ease-in-out;
+            animation-delay: 900ms;
         }
     }
 
@@ -210,6 +267,11 @@ body {
         animation: star-bounce-in 1500ms forwards cubic-bezier(0.075, 0.82, 0.165, 1), rotate 60s linear infinite;
         animation-delay: 630ms;
     }
+    body.is-home.is-loading & {
+        scale: 1;
+        animation: rotate 60s linear infinite, star-bounce-out 600ms forwards ease-in-out;
+        animation-delay: 630ms;
+    }
 
     animation: rotate 60s linear infinite;
     @keyframes rotate {
@@ -226,6 +288,14 @@ body {
         }
         to {
             scale: 1;
+        }
+    }
+    @keyframes star-bounce-out {
+        from {
+            scale: 1;
+        }
+        to {
+            scale: 0;
         }
     }
 }
@@ -286,6 +356,7 @@ body {
     position: relative;
     gap: 12px;
     margin: auto;
+    margin-top: 130px;
     
     @media (min-width: media(laptop)) {
         grid-template-columns: repeat(2, 1fr);
@@ -364,6 +435,7 @@ body {
     }
     .pair-value-block {
         justify-content: center;
+        text-align: center;
         p {
             font-size: 20px;
             font-weight: normal;
@@ -385,10 +457,122 @@ body {
         .pair-value-block {
             justify-content: flex-start;
             padding-left: 32px;
+            text-align: left;
         }
 
         .pair-block:not([selected=true]) {
             display: flex;
+        }
+    }
+}
+
+.leaderboard-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    .leaderboard-item {
+        background-color: white;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+
+        #email {
+            font-family: 'Montserrat', sans-serif;
+            padding-right: 20px;
+        }
+
+        &-you {
+            #email {
+                &::after {
+                    content: " (you)";
+                    color: #a2acaa;
+                }
+            }
+        }
+
+        #placement {
+            margin-right: 24px;
+        }
+
+        #time-left {
+            margin-left: auto;
+            &::after {
+                content: "s";
+                font-size: 13px;
+            }
+        }
+
+        @media (min-width: media(laptop)) {
+            font-size: 20px;
+            #time-left::after {
+                font-size: 15px;
+            }
+        }
+    }
+}
+
+.leaderboard-wrapper {
+    border-radius: 20px;
+    border: 5px solid black;
+    background-color: white;
+    padding: 12px;
+    width: 100%;
+    max-width: 800px;
+    height: fit-content;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+
+    @media (min-width: media(laptop)) {
+        padding: 32px;
+    }
+}
+
+.popup-wrapper {
+    border-radius: 20px;
+    border: 5px solid black;
+    background-color: white;
+    padding: 32px;
+    width: 100%;
+    height: fit-content;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+
+    &> p {
+        font-size: 40px;
+        text-align: center;
+    }
+
+    .input-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        input {
+            padding: 5px 15px;
+            border: 5px solid black;
+            border-radius: 10px;
+            font-size: 20px;
+            max-width: 242px;
+            min-height: 65px;
+        }
+
+        button#play-button {
+            background-color: #00D1FF;
+            color: #0374B3;
+        }
+    }
+
+    @media (min-width: media(laptop)) {
+        padding: 72px 91px;
+        width: unset;
+
+        .input-wrapper{
+            flex-direction: row;
         }
     }
 }
@@ -425,6 +609,24 @@ button {
             display: none;
         }
     }
+}
+
+#timer {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background-color: white;
+    border: 5px solid black;
+    border-top: 0;
+    border-radius: 0 0 20px 20px;
+    padding: 30px 80px;
+    width: 200px;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
 }
 
 .pair-block {

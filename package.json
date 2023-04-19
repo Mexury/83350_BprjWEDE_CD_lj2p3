@@ -28,5 +28,8 @@
   "bugs": {
     "url": "https://github.com/Mexury/83350_BprjWEDE_CD_lj2p3/issues"
   },
-  "homepage": "https://github.com/Mexury/83350_BprjWEDE_CD_lj2p3#readme"
+  "homepage": "https://github.com/Mexury/83350_BprjWEDE_CD_lj2p3#readme",
+  "devDependencies": {
+    "dotenv": "^16.0.3"
+  }
 }

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles/css/main.css">
+        <title>Document</title>
+    </head>
+    <body class="is-home">
+        <div class="content-wrapper">
+            <img src="content/background-star.svg" id="background-star">
+        </div>
+        <div class="container" style="display: flex; height: 100%;">
+            <div class="popup-wrapper">
+                <p>Who is playing?</p>
+                <div class="input-wrapper">
+                    <input type="email" id="email" name="email" placeholder="Email">
+                    <button id="play-button">Play</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
+<script defer>
+let emailInput = document.querySelector("#email")
+let playButton = document.querySelector("#play-button")
+
+playButton.onclick = async e => {
+
+    let email = emailInput.value.trim()
+
+    if (email.length > 0) {
+        // send request
+        const response = await fetch(
+            "/login",
+            {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email
+                })
+            }
+        )
+
+        const json = await response.json()
+        if (json.success) {
+            window.location.replace("/game")
+        }
+    } else {
+        // invalid email
+    }
+
+}
+</script>

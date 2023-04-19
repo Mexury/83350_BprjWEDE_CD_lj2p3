@@ -11,6 +11,9 @@
         <div class="content-wrapper">
             <img src="content/background-star.svg" id="background-star">
         </div>
+        <div id="timer">
+            30s
+        </div>
         <div class="container" style="display: flex; height: 100%;">
             <div class="pair-wrapper">
                 <div class="pair-key-wrapper">
@@ -60,6 +63,67 @@
 const vector1 = { x: 0, y: 0 }
 const vector2 = { x: 0, y: 0 }
 
+let timerInterval
+let timerStarted = false
+let timeLeftDefault = 30
+let timeLeft = 30
+
+let connections = []
+let matches = []
+
+const updateConnectionReferences = () => {
+    matches = []
+    let pairKeyBlocks = Array.from(document.querySelectorAll(".pair-key-block"))
+
+    pairKeyBlocks.forEach(keyBlock => {
+        let connection = keyBlock.getAttribute("data-connection")
+        let target = keyBlock.getAttribute("data-target")
+        
+        if (connection != "none") {
+            if (!connections.includes(keyBlock)) {
+                connections.push(keyBlock)
+            }
+            let valueBlock = document.querySelector(`.pair-value-block[data-id="${connection}"]`)
+            let slug = valueBlock.getAttribute("data-slug")
+
+            if (target == slug) {
+                if (!matches.includes(target)) {
+                    matches.push(target)
+                }
+            }
+        }
+    })
+
+    if (connections.length >= 5) {
+        // show submit button
+        // stopTimer()
+    } else {
+        // hide submit button
+    }
+}
+
+const timerElem = document.querySelector("#timer")
+const setupTimer = () => {
+    if (!timerStarted) {
+        timerStarted = true
+        timerInterval = setInterval(() => {
+            timerElem.innerText = `${timeLeft}s`
+            timeLeft--;
+
+            if (timeLeft+1 == 0) {
+                clearInterval(timerInterval)
+            }
+        }, 1000)
+    }
+}
+
+const stopTimer = () => {
+    if (timerStarted) {
+        timerStarted = false
+        clearInterval(timerInterval)
+    }
+}
+
 const prevKeyPairArrow = document.querySelector("#prev-key-pair")
 const nextKeyPairArrow = document.querySelector("#next-key-pair")
 
@@ -79,6 +143,7 @@ prevValuePairArrow.toggleAttribute("disabled", !checkPrevious(selectedKeyBlock))
 nextValuePairArrow.toggleAttribute("disabled", !checkNext(selectedKeyBlock))
 
 prevKeyPairArrow.onpointerdown = e => {
+    setupTimer()
     selectedKeyBlock = document.querySelector(".pair-key-wrapper .pair-block[selected=true]")
 
     if (checkPrevious(selectedKeyBlock)) {
@@ -91,6 +156,7 @@ prevKeyPairArrow.onpointerdown = e => {
     nextKeyPairArrow.toggleAttribute("disabled", !checkNext(selectedKeyBlock))
 }
 nextKeyPairArrow.onpointerdown = e => {
+    setupTimer()
     selectedKeyBlock = document.querySelector(".pair-key-wrapper .pair-block[selected=true]")
 
     if (checkNext(selectedKeyBlock)) {
@@ -104,6 +170,7 @@ nextKeyPairArrow.onpointerdown = e => {
 }
 
 prevValuePairArrow.onpointerdown = e => {
+    setupTimer()
     selectedValueBlock = document.querySelector(".pair-value-wrapper .pair-block[selected=true]")
 
     if (checkPrevious(selectedValueBlock)) {
@@ -116,6 +183,7 @@ prevValuePairArrow.onpointerdown = e => {
     nextValuePairArrow.toggleAttribute("disabled", !checkNext(selectedValueBlock))
 }
 nextValuePairArrow.onpointerdown = e => {
+    setupTimer()
     selectedValueBlock = document.querySelector(".pair-value-wrapper .pair-block[selected=true]")
 
     if (checkNext(selectedValueBlock)) {
@@ -135,6 +203,7 @@ let selecting = null;
 
 keyPairBlocks.forEach(block => {
     block.onpointerdown = e => {
+        setupTimer()
         if (!selecting && block.getAttribute("data-connection") == "none") {
             selecting = block
             selecting.setAttribute("data-selecting", "key")
@@ -150,6 +219,7 @@ keyPairBlocks.forEach(block => {
                     if (block.getAttribute("data-connection") == "none") {
                         block.setAttribute("data-connection", selecting.getAttribute("data-id"))
                         selecting.setAttribute("data-connection", block.getAttribute("data-id"))
+                        updateConnectionReferences()
                         setWire(block, selecting)
                         block.setAttribute("data-selecting", "none")
                         selecting.setAttribute("data-selecting", "none")
@@ -164,6 +234,7 @@ keyPairBlocks.forEach(block => {
 
 valuePairBlocks.forEach(block => {
     block.onpointerdown = e => {
+        setupTimer()
         if (!selecting && block.getAttribute("data-connection") == "none") {
             selecting = block
             selecting.setAttribute("data-selecting", "value")
@@ -178,6 +249,7 @@ valuePairBlocks.forEach(block => {
                         selecting.setAttribute("data-connection", block.getAttribute("data-id"))
                         block.setAttribute("data-selecting", "none")
                         selecting.setAttribute("data-selecting", "none")
+                        updateConnectionReferences()
                         setWire(selecting, block)
                         selecting = null
                     }
