@@ -1,0 +1,1 @@
+SELECT * FROM leaderboard ORDER BY time_left DESC LIMIT 3

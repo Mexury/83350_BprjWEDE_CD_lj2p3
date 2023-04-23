@@ -1,0 +1,1 @@
+INSERT INTO `leaderboard`(`email`, `time_left`, `amount_correct`) VALUES ('%email%','%time_left%','%amount_correct%')

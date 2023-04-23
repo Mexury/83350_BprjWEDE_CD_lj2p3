@@ -14,7 +14,7 @@
         <div id="timer">
             30s
         </div>
-        <div class="container" style="display: flex; height: 100%;">
+        <div class="container" style="display: flex; flex-direction: column; height: 100%;">
             <div class="pair-wrapper">
                 <div class="pair-key-wrapper">
                     <div class="pair-mobile-arrow pair-mobile-arrow-left" id="prev-key-pair"></div>
@@ -22,16 +22,20 @@
                         <div class="pair-block pair-key-block" tabindex="<%= index+1 %>" data-target="<%= key.target %>" data-connection="none" data-id="<%= index %>" <%= index == 0 ? 'selected=true' : "" %>>
                             <p><%= key.value %></p>
 
-                            <svg width="41" height="52" viewBox="0 0 41 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="anchor-point anchor-point-right">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M28 52V0H23V52H28Z" fill="black"/>
-                                <path d="M23 52V0H0V52H23Z" fill="white"/>
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M25 10C24.3227 10 23.6552 10.0421 23 10.1238V41.8762C23.6552 41.9579 24.3227 42 25 42C33.8366 42 41 34.8366 41 26C41 17.1634 33.8366 10 25 10Z" fill="white"/>
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M25 37C24.317 37 23.6486 36.9378 23 36.8186V41.8762C23.6552 41.9579 24.3227 42 25 42C33.8366 42 41 34.8366 41 26C41 17.1634 33.8366 10 25 10C24.3227 10 23.6552 10.0421 23 10.1238V15.1814C23.6486 15.0622 24.317 15 25 15C31.0751 15 36 19.9249 36 26C36 32.0751 31.0751 37 25 37Z" fill="black"/>
-                                <rect x="18" y="19" width="14" height="14" rx="7" fill="currentColor"/>
-                            </svg>
+                            <div class="anchor-point anchor-point-right">
+                                <svg width="41" height="52" viewBox="0 0 41 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M28 52V0H23V52H28Z" fill="black"/>
+                                    <path d="M23 52V0H0V52H23Z" fill="white"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M25 10C24.3227 10 23.6552 10.0421 23 10.1238V41.8762C23.6552 41.9579 24.3227 42 25 42C33.8366 42 41 34.8366 41 26C41 17.1634 33.8366 10 25 10Z" fill="white"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M25 37C24.317 37 23.6486 36.9378 23 36.8186V41.8762C23.6552 41.9579 24.3227 42 25 42C33.8366 42 41 34.8366 41 26C41 17.1634 33.8366 10 25 10C24.3227 10 23.6552 10.0421 23 10.1238V15.1814C23.6486 15.0622 24.317 15 25 15C31.0751 15 36 19.9249 36 26C36 32.0751 31.0751 37 25 37Z" fill="black"/>
+                                    <rect x="18" y="19" width="14" height="14" rx="7" fill="currentColor"/>
+                                    <feMorphology id="outline-idth" in="SourceAlpha" operator="dilate" radius="5"/>
+                                    <feComposite in="red" operator="in" result="outside-stroke"/>
+                                </svg>
+                            </div>
                         </div>
-                    <% }) %>
-                    <div class="pair-mobile-arrow pair-mobile-arrow-right"id="next-key-pair"></div>
+                        <% }) %>
+                        <div class="pair-mobile-arrow pair-mobile-arrow-right" id="next-key-pair"></div>
                 </div>
                 <div class="pair-value-wrapper">
                     <div class="pair-mobile-arrow pair-mobile-arrow-left" id="prev-value-pair"></div>
@@ -39,22 +43,28 @@
                         <div class="pair-block pair-value-block" tabindex="<%= index+6 %>" data-slug="<%= value.slug %>" data-connection="none" data-id="<%= index %>" <%= index == 0 ? 'selected=true' : "" %>>
                             <!-- <img src="content/<%= value.slug %>.svg" /> -->
                             <p><%= value.name %></p>
-
-                            <svg width="41" height="52" viewBox="0 0 41 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="anchor-point anchor-point-left">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M28 52V0H23V52H28Z" fill="black"/>
-                                <path d="M23 52V0H0V52H23Z" fill="white"/>
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M25 10C24.3227 10 23.6552 10.0421 23 10.1238V41.8762C23.6552 41.9579 24.3227 42 25 42C33.8366 42 41 34.8366 41 26C41 17.1634 33.8366 10 25 10Z" fill="white"/>
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M25 37C24.317 37 23.6486 36.9378 23 36.8186V41.8762C23.6552 41.9579 24.3227 42 25 42C33.8366 42 41 34.8366 41 26C41 17.1634 33.8366 10 25 10C24.3227 10 23.6552 10.0421 23 10.1238V15.1814C23.6486 15.0622 24.317 15 25 15C31.0751 15 36 19.9249 36 26C36 32.0751 31.0751 37 25 37Z" fill="black"/>
-                                <rect x="18" y="19" width="14" height="14" rx="7" fill="currentColor"/>
-                            </svg>
+                            
+                            <div class="anchor-point anchor-point-left">
+                                <svg width="41" height="52" viewBox="0 0 41 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M28 52V0H23V52H28Z" fill="black"/>
+                                    <path d="M23 52V0H0V52H23Z" fill="white"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M25 10C24.3227 10 23.6552 10.0421 23 10.1238V41.8762C23.6552 41.9579 24.3227 42 25 42C33.8366 42 41 34.8366 41 26C41 17.1634 33.8366 10 25 10Z" fill="white"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M25 37C24.317 37 23.6486 36.9378 23 36.8186V41.8762C23.6552 41.9579 24.3227 42 25 42C33.8366 42 41 34.8366 41 26C41 17.1634 33.8366 10 25 10C24.3227 10 23.6552 10.0421 23 10.1238V15.1814C23.6486 15.0622 24.317 15 25 15C31.0751 15 36 19.9249 36 26C36 32.0751 31.0751 37 25 37Z" fill="black"/>
+                                    <rect x="18" y="19" width="14" height="14" rx="7" fill="currentColor"/>
+                                    <feMorphology id="outline-idth" in="SourceAlpha" operator="dilate" radius="5"/>
+                                    <feComposite in="red" operator="in" result="outside-stroke"/>
+                                </svg>
+                            </div>
                         </div>
                     <% }) %>
-                    <div class="pair-mobile-arrow pair-mobile-arrow-right"id="next-value-pair"></div>
+                    <div class="pair-mobile-arrow pair-mobile-arrow-right" id="next-value-pair"></div>
                 </div>
 
                 <button class="mobile-connect-button" tabindex="11">CONNECT!</button>
                 <button class="mobile-disconnect-button" tabindex="12">DISCONNECT!</button>
             </div>
+
+            <button id="submit-game" hidden>SUBMIT</button>
         </div>
     </body>
 </html>
@@ -70,6 +80,44 @@ let timeLeft = 30
 
 let connections = []
 let matches = []
+
+const submitGameButton = document.querySelector(`#submit-game`)
+
+
+const playSound = (sound, extension = '.mp3') => {
+
+    let player = document.createElement("audio")
+    player.src = `content/sounds/${sound}${extension}`
+
+    player.play()
+}
+
+
+submitGameButton.onclick = async e => {
+    if (e.button != 0) return
+    if (connections.length >= 5) {
+        // correct
+        const response = await fetch(
+            "/submit",
+            {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    matches,
+                    connections
+                })
+            }
+        )
+
+        const json = await response.json()
+        if (json.success) {
+            window.location.replace("/post-game")
+        }
+    }
+}
+
 
 const updateConnectionReferences = () => {
     matches = []
@@ -96,9 +144,12 @@ const updateConnectionReferences = () => {
 
     if (connections.length >= 5) {
         // show submit button
+        submitGameButton.toggleAttribute("hidden", false)
+        
         // stopTimer()
     } else {
         // hide submit button
+        submitGameButton.toggleAttribute("hidden", true)
     }
 }
 
@@ -142,7 +193,8 @@ nextKeyPairArrow.toggleAttribute("disabled", !checkNext(selectedKeyBlock))
 prevValuePairArrow.toggleAttribute("disabled", !checkPrevious(selectedKeyBlock))
 nextValuePairArrow.toggleAttribute("disabled", !checkNext(selectedKeyBlock))
 
-prevKeyPairArrow.onpointerdown = e => {
+prevKeyPairArrow.onclick = e => {
+    if (e.button != 0) return
     setupTimer()
     selectedKeyBlock = document.querySelector(".pair-key-wrapper .pair-block[selected=true]")
 
@@ -155,7 +207,8 @@ prevKeyPairArrow.onpointerdown = e => {
     prevKeyPairArrow.toggleAttribute("disabled", !checkPrevious(selectedKeyBlock))
     nextKeyPairArrow.toggleAttribute("disabled", !checkNext(selectedKeyBlock))
 }
-nextKeyPairArrow.onpointerdown = e => {
+nextKeyPairArrow.onclick = e => {
+    if (e.button != 0) return
     setupTimer()
     selectedKeyBlock = document.querySelector(".pair-key-wrapper .pair-block[selected=true]")
 
@@ -169,7 +222,8 @@ nextKeyPairArrow.onpointerdown = e => {
     nextKeyPairArrow.toggleAttribute("disabled", !checkNext(selectedKeyBlock))
 }
 
-prevValuePairArrow.onpointerdown = e => {
+prevValuePairArrow.onclick = e => {
+    if (e.button != 0) return
     setupTimer()
     selectedValueBlock = document.querySelector(".pair-value-wrapper .pair-block[selected=true]")
 
@@ -182,7 +236,8 @@ prevValuePairArrow.onpointerdown = e => {
     prevValuePairArrow.toggleAttribute("disabled", !checkPrevious(selectedValueBlock))
     nextValuePairArrow.toggleAttribute("disabled", !checkNext(selectedValueBlock))
 }
-nextValuePairArrow.onpointerdown = e => {
+nextValuePairArrow.onclick = e => {
+    if (e.button != 0) return
     setupTimer()
     selectedValueBlock = document.querySelector(".pair-value-wrapper .pair-block[selected=true]")
 
@@ -202,61 +257,71 @@ let valuePairBlocks = document.querySelectorAll(".pair-value-wrapper .pair-block
 let selecting = null;
 
 keyPairBlocks.forEach(block => {
-    block.onpointerdown = e => {
+    block.onclick = e => {
+        console.log(block);
+        if (e.button != 0) return
         setupTimer()
         if (!selecting && block.getAttribute("data-connection") == "none") {
             selecting = block
             selecting.setAttribute("data-selecting", "key")
             updateWire()
         } else {
-            if (selecting)
-            switch(selecting.parentElement.className) {
-                case "pair-key-wrapper":
-                    // NO LINK
-                    break;
-                case "pair-value-wrapper":
-                    // LINK
-                    if (block.getAttribute("data-connection") == "none") {
-                        block.setAttribute("data-connection", selecting.getAttribute("data-id"))
-                        selecting.setAttribute("data-connection", block.getAttribute("data-id"))
-                        updateConnectionReferences()
-                        setWire(block, selecting)
-                        block.setAttribute("data-selecting", "none")
-                        selecting.setAttribute("data-selecting", "none")
-                        
-                        selecting = null
-                    }
-                    break;
+            if (selecting) {
+                switch(selecting.parentElement.className) {
+                    case "pair-key-wrapper":
+                        // NO LINK
+                        break;
+                    case "pair-value-wrapper":
+                        // LINK
+                        if (block.getAttribute("data-connection") == "none") {
+                            block.setAttribute("data-connection", selecting.getAttribute("data-id"))
+                            selecting.setAttribute("data-connection", block.getAttribute("data-id"))
+                            updateConnectionReferences()
+                            setWire(block, selecting)
+                            block.setAttribute("data-selecting", "none")
+                            selecting.setAttribute("data-selecting", "none")
+                            
+                            selecting = null
+                        }
+                        break;
+                }
+            } else {
+                playSound("snip")
             }
         }
     }
 })
 
 valuePairBlocks.forEach(block => {
-    block.onpointerdown = e => {
+    block.ontouchend = block.onclick = e => {
+        console.log(block);
+        if (e.button != 0) return
         setupTimer()
         if (!selecting && block.getAttribute("data-connection") == "none") {
             selecting = block
             selecting.setAttribute("data-selecting", "value")
             updateWire(true)
         } else {
-            if (selecting)
-            switch(selecting.parentElement.className) {
-                case "pair-key-wrapper":
-                    // LINK
-                    if (block.getAttribute("data-connection") == "none") {
-                        block.setAttribute("data-connection", selecting.getAttribute("data-id"))
-                        selecting.setAttribute("data-connection", block.getAttribute("data-id"))
-                        block.setAttribute("data-selecting", "none")
-                        selecting.setAttribute("data-selecting", "none")
-                        updateConnectionReferences()
-                        setWire(selecting, block)
-                        selecting = null
-                    }
-                    break;
-                case "pair-value-wrapper":
-                    // NO LINK
-                    break;
+            if (selecting) {
+                switch(selecting.parentElement.className) {
+                    case "pair-key-wrapper":
+                        // LINK
+                        if (block.getAttribute("data-connection") == "none") {
+                            block.setAttribute("data-connection", selecting.getAttribute("data-id"))
+                            selecting.setAttribute("data-connection", block.getAttribute("data-id"))
+                            block.setAttribute("data-selecting", "none")
+                            selecting.setAttribute("data-selecting", "none")
+                            updateConnectionReferences()
+                            setWire(selecting, block)
+                            selecting = null
+                        }
+                        break;
+                    case "pair-value-wrapper":
+                        // NO LINK
+                        break;
+                }
+            } else {
+                playSound("snip")
             }
         }
     }

@@ -1,13 +1,17 @@
-/*   
+/*
 |*   NodeJS MySQL helper class by Albert Lourensen (83350)
-|*   
+|*
 |*   Dependencies:
 |*   - mysql
 |*   - dotenv
-*/   
+|*   - fs
+*/
 
 const mysql = require("mysql")
 const dotenv = require("dotenv")
+const fs = require('fs/promises');
+const path = require('path')
+
 dotenv.config()
 
 let conn
@@ -76,9 +80,66 @@ const $ = {
     // }
 }
 
+function checkString(str, obj) {
+    const regex = /%([^%]+)%/g; // matches any string enclosed in % symbols
+    let matches = str.match(regex); // find all matches
+    if (matches === null) {
+        return str; // no matches found
+    }
+    for (let i = 0; i < matches.length; i++) {
+        const match = matches[i];
+        const key = match.substring(1, match.length - 1); // extract the key from the matched string
+        if (obj.hasOwnProperty(key)) {
+            const value = obj[key];
+            if (Array.isArray(value) || typeof value === "object") {
+                throw new Error(`Value for key '${key}' is not a scalar`);
+            }
+            str = str.replaceAll(match, value);
+        }
+    }
+    return str;
+}
+
+const sql = async (file, obj) => {
+    try {
+        const matchingFile = await fs.readFile(`./sql/${file}.sql`)
+        let result = matchingFile ? matchingFile.toString().replaceAll('\t', '').replaceAll('\r', ' ').split('\n').join('') : false
+
+        if (!result) return false
+
+        let checkedResult = true
+        let data = ""
+
+        if (obj) {
+            try {
+                let queryStr = checkString(result, obj)
+                console.log(queryStr);
+                data = await query(queryStr)
+            } catch (err2) {
+                checkedResult = false
+            }
+        } else {
+            data = await query(result)
+        }
+
+        return {
+            success: data.length > 0 ? true : false,
+            data: data.length > 0 ? data : []
+        }
+
+    } catch (err) {
+        console.error({
+            message: "An error occured while trying to execute SQL",
+            error: err
+        })
+        return false
+    }
+}
+
 module.exports = {
     conn,
     connect,
     query,
+    sql,
     $
 }

@@ -351,6 +351,7 @@ body.is-home.is-loading #background-star {
 @media (min-width: 1024px) {
   .pair-key-wrapper, .pair-value-wrapper {
     min-height: unset;
+    margin: 0;
   }
   .pair-key-wrapper .pair-block, .pair-value-wrapper .pair-block {
     overflow: initial;
@@ -358,6 +359,21 @@ body.is-home.is-loading #background-star {
   }
   .pair-key-wrapper .pair-block::after, .pair-value-wrapper .pair-block::after {
     all: unset;
+  }
+  .pair-key-wrapper .pair-block:hover, .pair-key-wrapper .pair-block:focus-visible, .pair-value-wrapper .pair-block:hover, .pair-value-wrapper .pair-block:focus-visible {
+    box-shadow: 0 0 0 5px white;
+  }
+  .pair-key-wrapper .pair-block:hover .anchor-point::after, .pair-key-wrapper .pair-block:focus-visible .anchor-point::after, .pair-value-wrapper .pair-block:hover .anchor-point::after, .pair-value-wrapper .pair-block:focus-visible .anchor-point::after {
+    z-index: -3;
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -5px;
+    height: 42px;
+    width: 42px;
+    background-color: white;
+    transform: translate(0, -50%);
+    border-radius: 100%;
   }
   .pair-key-wrapper .pair-value-block, .pair-value-wrapper .pair-value-block {
     justify-content: flex-start;
@@ -442,6 +458,10 @@ body.is-home.is-loading #background-star {
   font-size: 40px;
   text-align: center;
 }
+.popup-wrapper > p.subtitle {
+  font-size: 32px;
+  margin-top: -15px;
+}
 .popup-wrapper .input-wrapper {
   display: flex;
   flex-direction: column;
@@ -455,10 +475,6 @@ body.is-home.is-loading #background-star {
   max-width: 242px;
   min-height: 65px;
 }
-.popup-wrapper .input-wrapper button#play-button {
-  background-color: #00D1FF;
-  color: #0374B3;
-}
 @media (min-width: 1024px) {
   .popup-wrapper {
     padding: 72px 91px;
@@ -469,18 +485,28 @@ body.is-home.is-loading #background-star {
   }
 }
 
+#submit-game {
+  margin-bottom: auto;
+}
+
 button {
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 20px;
   font-size: 20px;
   font-weight: normal;
+  cursor: pointer;
+  outline: 0;
   border: 5px solid black;
+}
+button#play-button {
+  background-color: #00D1FF;
+  color: #0374B3;
+}
+button:hover, button:focus-visible {
+  box-shadow: 0 0 0 5px white;
 }
 button.mobile-connect-button, button.mobile-disconnect-button {
   margin: 0 24px;
-}
-button.mobile-connect-button:hover, button.mobile-disconnect-button:hover {
-  filter: contrast(1.15) brightness(0.9);
 }
 button.mobile-connect-button {
   background-color: #00FF47;
@@ -678,10 +704,11 @@ button.mobile-disconnect-button {
   .pair-block.pair-key-block[data-selecting=none]:not([data-connection=none])[data-id="5"]::after {
     background-image: url("../../content/string_yellow.svg");
   }
-  .pair-block.pair-key-block[data-selecting=none]:not([data-connection=none]):hover::after {
+  .pair-block.pair-key-block[data-selecting=none]:not([data-connection=none]):hover::after, .pair-block.pair-key-block[data-selecting=none]:not([data-connection=none]):focus-visible::after {
     animation-play-state: running;
     box-shadow: 5px 0px 0px 0px black, -5px 0px 0px 0px black, 5px 0px 0px 5px white, -5px 0px 0px 5px white;
     z-index: 4;
+    isolation: isolate;
   }
   @keyframes selected {
     from {
@@ -691,7 +718,7 @@ button.mobile-disconnect-button {
       background-position: 770px 0;
     }
   }
-  .pair-block.pair-key-block[data-selecting=none]:not([data-connection=none]):hover::before {
+  .pair-block.pair-key-block[data-selecting=none]:not([data-connection=none]):hover::before, .pair-block.pair-key-block[data-selecting=none]:not([data-connection=none]):focus-visible::before {
     position: absolute;
     content: "";
     height: 50px;
@@ -785,7 +812,7 @@ button.mobile-disconnect-button {
     z-index: 10;
   }
   .pair-block .anchor-point {
-    display: block;
+    display: flex;
     position: absolute;
     top: 50%;
     right: 0%;

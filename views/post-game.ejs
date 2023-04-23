@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles/css/main.css">
+        <title>Document</title>
+    </head>
+    <body>
+        <div class="content-wrapper">
+            <img src="content/background-star.svg" id="background-star">
+        </div>
+        <div class="container" style="display: flex; height: 100%;">
+            <div class="popup-wrapper">
+                <p>The results are in</p>
+                <p class="subtitle"><%= last_game.matches.length %> correct</p>
+                <button id="play-button">Play again</button>
+            </div>
+        </div>
+    </body>
+</html>
+
+<script defer>
+let emailInput = document.querySelector("#email")
+let playButton = document.querySelector("#play-button")
+
+playButton.onclick = async e => {
+    window.location.replace("/")
+}
+</script>

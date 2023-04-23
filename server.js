@@ -57,17 +57,16 @@ const getPairs = (array) => {
 let validators = []
 
 app.get(["/"], async (req, res) => {
-
     res.render("home")
 })
 
 app.get(["/leaderboard"], async (req, res) => {
     const { session } = req
 
-    const leaderboard = await db.$.LEADERBOARD.GET_TOP_THREE()
+    const leaderboard = await db.sql("leaderboard/get_top_three")
 
     res.render("leaderboard", {
-        leaderboard,
+        leaderboard: leaderboard.data,
         email: session.email || ""
     })
 })
@@ -81,6 +80,70 @@ app.get(["/login"], async (req, res) => {
         session.validator = crypto.randomUUID()
         validators.push(session.validator)
         res.render("login")
+    }
+})
+
+app.get(["/post-game"], async (req, res) => {
+    const { session } = req
+
+    if (!session.token) {
+        res.redirect("/login")
+        return
+    }
+
+    if (!session.game_ended) {
+        res.redirect("/game")
+        return
+    }
+
+    let { last_game } = session
+
+    res.render("post-game", {
+        last_game
+    })
+
+    session.destroy()
+})
+
+app.post(["/submit"], async (req, res) => {
+    const { session, body } = req
+
+    if (session.token) {
+        let { connections, matches, time_left } = body
+
+        if (connections && matches && time_left) {
+            session.last_game = { connections, matches }
+            session.game_ended = true
+
+            const result = await db.sql("leaderboard/create_new_entry", {
+                email: session.email,
+                time_left: session.time_left || 0,
+                amount_correct: matches.length || 0
+            })
+            console.log(result);
+
+            res.json({
+                success: true,
+                data: {
+                    message: "Submitted successfully"
+                }
+            })
+        } else {
+            res.json({
+                success: false,
+                errors: [
+                    "Unable to submit.",
+                    "Please pass connections, matches."
+                ]
+            })
+        }
+    } else {
+        res.json({
+            success: false,
+            errors: [
+                "Not authorized."
+            ]
+        })
     }
 })
 
@@ -148,13 +211,14 @@ app.get(["/game"], async (req, res) => {
     }
 
     if (!session.pairs) {
-        const shows = await db.$.SHOWS.GET_ALL()
+        const shows = await db.sql("shows/get_all")
+        
         let pairs = {
             keys: [],
             values: []
         }
 
-        shows.forEach(show => {
+        shows.data.forEach(show => {
             pairs.keys.push({
                 target: show.slug,
                 value: show.description
